@@ -1,37 +1,36 @@
-import { ADD_POST, ADD_COMMENT } from '../actions/actionTypes'
+import { SET_POSTS, ADD_COMMENT } from '../actions/actionTypes'
 
 
 const initialState = {
-    posts: [{
-        id: Math.random(),
-        neckname: 'Rafael Paereira Filho',
-        email: 'rafaelprrflh@gmail.com',
-        image: require('../../../assets/imgs/fence.jpg'),
-        comments: [{
-            nickname: 'John Ray Sheldon',
-            comment: 'Stunning!'
-        },{
-            nickname: 'Ana Julia Arruda',
-            comment: 'Foto linda! Onde foi tirada?'
-        }]
-    },{
-        id: Math.random(),
-        neckname: 'Francisco Leandro Lima',
-        email: 'fllima@gmail.com',
-        image: require('../../../assets/imgs/bw.jpg'),
-        comments: []
-    }]
+    posts: []
+    // posts: [{
+    //     id: Math.random(),
+    //     neckname: 'Rafael Paereira Filho',
+    //     email: 'rafaelprrflh@gmail.com',
+    //     image: require('../../../assets/imgs/fence.jpg'),
+    //     comments: [{
+    //         nickname: 'John Ray Sheldon',
+    //         comment: 'Stunning!'
+    //     },{
+    //         nickname: 'Ana Julia Arruda',
+    //         comment: 'Foto linda! Onde foi tirada?'
+    //     }]
+    // },{
+    //     id: Math.random(),
+    //     neckname: 'Francisco Leandro Lima',
+    //     email: 'fllima@gmail.com',
+    //     image: require('../../../assets/imgs/bw.jpg'),
+    //     comments: []
+    // }]
 }
 
 const reducer = (state = initialState, action) => {
     
     switch(action.type) {
-        case ADD_POST:
+        case SET_POSTS:
                 return {
                     ...state,
-                    posts: state.posts.concat({
-                        ...action.payload
-                    })
+                    posts: action.payload
                 }
         case ADD_COMMENT:
                 return {

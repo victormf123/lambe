@@ -1,5 +1,5 @@
 const functions = require('firebase-functions');
-const cors = require('cors')
+const cors = require('cors')({ origin: true})
 const fs = require('fs')
 const uuid = require('uuid-v4')
 const { Storage } = require('@google-cloud/storage')
@@ -32,7 +32,8 @@ exports.uploadImage = functions.https.onRequest((request, response) => {
                 }else{
                     const fileName = encodeURIComponent(file.name)
                     const imageUrl = 'https://firebasestorage.googleapis.com/v0/b/'
-                                    + bucket.name + 'o' + fileName + '?alt=media&token=' + id
+                                    + bucket.name + '/o/' + fileName + '?alt=media&token=' + id
+                    console.log(imageUrl)
                     return response.status(201).json({ imageUrl: imageUrl })
                 }
                 
