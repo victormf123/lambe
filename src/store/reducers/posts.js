@@ -1,8 +1,9 @@
-import { SET_POSTS, ADD_COMMENT } from '../actions/actionTypes'
+import { SET_POSTS, ADD_COMMENT, CREATING_POST, POST_CREATED } from '../actions/actionTypes'
 
 
 const initialState = {
-    posts: []
+    posts: [],
+    isUploading: false,
     // posts: [{
     //     id: Math.random(),
     //     neckname: 'Rafael Paereira Filho',
@@ -27,6 +28,17 @@ const initialState = {
 const reducer = (state = initialState, action) => {
     
     switch(action.type) {
+        case CREATING_POST:
+            return {
+                ...state,
+                isUploading: true
+            }
+        case POST_CREATED:
+            return {
+                ...state,
+                isUploading: false,
+            }
+
         case SET_POSTS:
                 return {
                     ...state,
