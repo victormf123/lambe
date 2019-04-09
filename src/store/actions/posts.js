@@ -1,4 +1,5 @@
 import { CREATING_POST, POST_CREATED, SET_POSTS, ADD_COMMENT } from './actionTypes'
+import { setMessage } from './message'
 import axios from 'axios'
 
 export const addPost =  post => {
@@ -12,18 +13,35 @@ export const addPost =  post => {
                 image: post.image.base64
             }
         })
-            .catch(err => console.log(err))
+            .catch(err => {
+                console.log(err)
+                dispatch(setMessage({
+                    title: 'Erro',
+                    text: 'Ocorreu um erro inesperado!'
+                }))
+            })
             .then(resp => {
                 console.log(resp)
                 post.image = resp.data.imageUrl
                 console.log(post)
                 axios.post('./posts.json', {...post})
-                    .catch(err => console.log(err))
-                    .then(res => {
+                    .then((res) => {
                         console.log(res)
                         dispatch(fetchPosts())
                         dispatch(postCreated())
+                        dispatch(setMessage({
+                            title: 'Sucesso',
+                            text: 'Nova postagem!'
+                        }))
+                    })    
+                    .catch(err => {
+                        console.log(err)
+                        dispatch(setMessage({
+                            title: 'Erro',
+                            text: err
+                        }))
                     })
+                    
             })
 
         
@@ -42,7 +60,13 @@ export const addComment = payload => {
             const comments = res.data.comments || []
             comments.push(payload.comment)
             axios.patch(`/posts/${payload.postId}.json`, { comments })
-            .catch(err => console.log(err))
+            .catch(err => {
+                console.log(err)
+                dispatch(setMessage({
+                    title: 'Erro',
+                    text: 'Ocorreu um erro inesperado!'
+                }))
+            })
             .then(res => {
                 dispatch(fetchPosts())
             })
@@ -64,18 +88,25 @@ export const setPosts = posts => {
 export const fetchPosts = () => {
     return dispatch => {
         axios.get('/posts.json')
-        .catch(err => console.log(err))
-        .then(res => {
-            const rawPosts = res.data
-            const posts = []
-            for (let key in rawPosts){
-                posts.push({
-                    ...rawPosts[key],
-                    id: key 
-                })
-            }
-            dispatch(setPosts(posts.reverse()))
-        })
+            .catch(err => {
+                console.log(err)
+                dispatch(setMessage({
+                    title: 'Erro',
+                    text: 'Ocorreu um erro inesperado!'
+                }))
+            })
+            .then(res => {
+                console.log(res)
+                const rawPosts = res.data
+                const posts = []
+                for (let key in rawPosts){
+                    posts.push({
+                        ...rawPosts[key],
+                        id: key 
+                    })
+                }
+                dispatch(setPosts(posts.reverse()))
+            })
     }
 }
 
