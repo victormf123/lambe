@@ -17,7 +17,7 @@ class Register extends Component {
                 email: '',
                 password: ''
             })
-            this.props.navigation.navigate('Feed')
+            this.props.navigation.navigate('Profile')
         }
     }
 

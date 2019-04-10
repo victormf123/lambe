@@ -1,33 +1,25 @@
-import { SET_POSTS, ADD_COMMENT, CREATING_POST, POST_CREATED } from '../actions/actionTypes'
+import { SET_POSTS, ADD_COMMENT, CREATING_POST, POST_CREATED, IS_EDIT_MODE, ISNT_EDIT_MODE } from '../actions/actionTypes'
 
 
 const initialState = {
     posts: [],
     isUploading: false,
-    // posts: [{
-    //     id: Math.random(),
-    //     neckname: 'Rafael Paereira Filho',
-    //     email: 'rafaelprrflh@gmail.com',
-    //     image: require('../../../assets/imgs/fence.jpg'),
-    //     comments: [{
-    //         nickname: 'John Ray Sheldon',
-    //         comment: 'Stunning!'
-    //     },{
-    //         nickname: 'Ana Julia Arruda',
-    //         comment: 'Foto linda! Onde foi tirada?'
-    //     }]
-    // },{
-    //     id: Math.random(),
-    //     neckname: 'Francisco Leandro Lima',
-    //     email: 'fllima@gmail.com',
-    //     image: require('../../../assets/imgs/bw.jpg'),
-    //     comments: []
-    // }]
+    isEditMode: false,
 }
 
 const reducer = (state = initialState, action) => {
     
     switch(action.type) {
+        case IS_EDIT_MODE:
+            return {
+                ...state,
+                isEditMode: true
+            }
+        case ISNT_EDIT_MODE:
+            return {
+                ...state,
+                isEditMode: true
+            }
         case CREATING_POST:
             return {
                 ...state,

@@ -1,9 +1,9 @@
-import { CREATING_POST, POST_CREATED, SET_POSTS, ADD_COMMENT } from './actionTypes'
+import { CREATING_POST, POST_CREATED, SET_POSTS, IS_EDIT_MODE, ISNT_EDIT_MODE } from './actionTypes'
 import { setMessage } from './message'
 import axios from 'axios'
 
 export const addPost =  post => {
-    return dispatch => {
+    return (dispatch, getState) => {
         dispatch(creatingPost())
         axios({
             url: 'uploadImage',
@@ -24,9 +24,8 @@ export const addPost =  post => {
                 console.log(resp)
                 post.image = resp.data.imageUrl
                 console.log(post)
-                axios.post('./posts.json', {...post})
+                axios.post(`./posts.json?auth=${getState().user.token}`, {...post})
                     .then((res) => {
-                        console.log(res)
                         dispatch(fetchPosts())
                         dispatch(postCreated())
                         dispatch(setMessage({
@@ -47,19 +46,39 @@ export const addPost =  post => {
         
     }
     // return {
-    //     type: ADD_POST,
-    //     payload: post
+    
     // }
 }
 
+export const editMode = bool => {
+    if (bool){
+        return {
+            type: IS_EDIT_MODE,
+            payload: bool
+        }
+    }else {
+        return {
+            type: ISNT_EDIT_MODE,
+            payload: bool
+        }
+    }
+}
+
+export const isntEditMode = bool => {
+    return {
+        type: ADD_POST,
+        payload: bool
+    }
+}
+
 export const addComment = payload => {
-    return dispatch => {
+    return (dispatch, getState) => {
         axios.get(`/posts/${payload.postId}.json`)
         .catch(err => console.log(err))
         .then(res => {
             const comments = res.data.comments || []
             comments.push(payload.comment)
-            axios.patch(`/posts/${payload.postId}.json`, { comments })
+            axios.patch(`/posts/${payload.postId}.json?auth=${getState().user.token}`, { comments })
             .catch(err => {
                 console.log(err)
                 dispatch(setMessage({
