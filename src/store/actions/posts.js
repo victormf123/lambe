@@ -24,7 +24,7 @@ export const addPost =  post => {
                 console.log(resp)
                 post.image = resp.data.imageUrl
                 console.log(post)
-                axios.post(`./posts.json?auth=${getState().user.token}`, {...post})
+                axios.post(`posts.json?auth=${getState().user.token}`, {...post})
                     .then((res) => {
                         dispatch(fetchPosts())
                         dispatch(postCreated())
