@@ -1,4 +1,5 @@
 # InstaBad
+O nome do repositório e lambe em homenagem aos antigos fotógrafos ambulantes que exercia a sua atividade nos espaços públicos os chamados "Lambe-lambe". 
 
 Faça o clone no projeto na sua maquina, utilizando o git clone <url_do_projeto>
 
